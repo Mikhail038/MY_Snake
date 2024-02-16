@@ -1,10 +1,15 @@
 #include "control.hpp"
+#include "ui.hpp"
+
+using namespace Snake;
 
 int main()
 {
-    Snake::UI           ui;
-    Snake::Game         game (ui);
-    Snake::Controller   controller(game);
+    UI* ui = UI::get(text);
+    Game         game(*ui);
+    Controller   controller(game);
+
+    ui->draw();
 
     std::cout << controller.get_user_line() << std::endl;
 }

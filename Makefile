@@ -5,22 +5,29 @@ DIR = -IControl -IGame -IUserInterface
 CXX_FLAGS += $(DIR)
 
 OBJ = Objects
-TRGT = snake.bin
+TRGT = snake
 VPATH = $(OBJ):Game:UserInterface:Control
 
 SOURCE = main.cpp Game/game.cpp UserInterface/ui.cpp Control/control.cpp
-OBJECTS = main.o game.o ui.o control.o
+OBJECTS = $(OBJ)/main.o $(OBJ)/game.o $(OBJ)/ui.o $(OBJ)/control.o
 
-all: FOLDERS $(OBJECTS) $(TRGT).make
+all: FOLDERS $(TRGT)
+
+$(OBJ)/game.o: Game/game.cpp
+	$(CXX) -c $< -o $@ $(CXX_FLAGS)
+
+$(OBJ)/ui.o: UserInterface/ui.cpp
+	$(CXX) -c $< -o $@ $(CXX_FLAGS)
+
+$(OBJ)/control.o: Control/control.cpp
+	$(CXX) -c $< -o $@ $(CXX_FLAGS)
+
+$(OBJ)/main.o: main.cpp
+	$(CXX) -c $< -o $@ $(CXX_FLAGS)
+
 
 $(TRGT): $(OBJECTS) 
-	$(CXX) $^ -o $@ $(CXX_FLAGS)
-
-$(TRGT).make:
-	$(MAKE) $(TRGT)
-
-.cpp.o:
-	$(CXX) -c $< -o $(OBJ)/$@ $(CXX_FLAGS)
+	$(CXX) $^ -o $@.bin $(CXX_FLAGS)
 
 FOLDERS:
 	@mkdir -p $(OBJ)
@@ -28,3 +35,6 @@ FOLDERS:
 clean: 
 	@rm -rf $(OBJ)
 	@rm -rf $(TRGT)
+
+run: $(TRGT).bin
+	@./$<
