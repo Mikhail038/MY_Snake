@@ -3,8 +3,9 @@
 #include <sys/ioctl.h>
 #include <string>
 #include <termios.h>
+#include <stdint.h>
 
-namespace Snake
+namespace snake_game
 {
 //\x1b[%m
     enum Colour
@@ -36,8 +37,8 @@ namespace Snake
 
     enum UIMode
     {
-        text,
-        graphics
+        text_mode,
+        graphics_mode
     };
 
     class UI
@@ -53,7 +54,7 @@ namespace Snake
 
         virtual void draw() = 0;
 
-        static UI* get(UIMode mode = text);
+        static UI* get(UIMode mode = text_mode);
 
     private:
 
@@ -61,6 +62,12 @@ namespace Snake
 
     class TextUI : public UI
     {
+    private:
+        uint16_t width;
+        uint16_t height;
+    
+        termios saved_attributes;
+
     public:
         TextUI();
         virtual ~TextUI();

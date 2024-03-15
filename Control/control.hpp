@@ -4,7 +4,7 @@
 
 #include "game.hpp"
 
-namespace Snake
+namespace snake_game
 {
     class Controller
     {

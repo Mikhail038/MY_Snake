@@ -1,6 +1,6 @@
 #include "control.hpp"
 
-std::string Snake::Controller::get_user_line() const
+std::string snake_game::Controller::get_user_line() const
 {
     std::string tmp;
     
